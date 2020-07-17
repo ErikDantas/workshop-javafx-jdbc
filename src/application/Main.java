@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+	
+	private static Scene mainScene=null;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -17,7 +20,7 @@ public class Main extends Application {
 			scroolpane.setFitToHeight(true);
 			scroolpane.setFitToWidth(true);
 			
-			Scene mainScene = new Scene(scroolpane);
+			mainScene = new Scene(scroolpane);
 			primaryStage.setScene(mainScene);
 			primaryStage.setTitle("Sample JavaFX application");
 			primaryStage.show();
@@ -25,7 +28,9 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+	public static Scene getMainScene() {
+		return mainScene;
+	}
 	public static void main(String[] args) {
 		launch(args);
 	}

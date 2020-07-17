@@ -31,10 +31,10 @@ public class MainViewController implements Initializable {
 		System.out.println("Seller");
 	}
 	public void onMenuItemDepartment() {
-		System.out.println("Department");
+		loadNewView("/gui/DepartmentListView.fxml");
 	}
 	public void onMenuItemAbout() {
-		loadAboutView("/gui/AboutView.fxml");
+		loadNewView("/gui/AboutView.fxml");
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class MainViewController implements Initializable {
 		
 	}
 	
-	public synchronized void loadAboutView(String absolutName) {
+	public synchronized void loadNewView(String absolutName) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutName));
 			VBox newVBox = loader.load();

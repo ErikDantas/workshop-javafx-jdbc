@@ -25,6 +25,7 @@ public class SellerDaoJDBC implements SellerDao {
 	}
 	
 	
+	@SuppressWarnings("static-access")
 	@Override
 	public void insert(Seller obj) {
 		PreparedStatement st = null;

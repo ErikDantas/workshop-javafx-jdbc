@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -7,15 +8,21 @@ import java.util.ResourceBundle;
 import application.Main;
 import entities.Department;
 import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.service.DepartmentService;
 
@@ -39,10 +46,10 @@ public class DepartmentListController implements Initializable{
 	private ObservableList<Department> obslist;
 	
 	@FXML
-	public void onNewBtnDepartment() {
-		System.out.println("Click");
+	public void onNewBtnDepartment(ActionEvent event) {
+		Stage parentStage = Utils.currentStage(event);
+		departmentFormView("/gui/DepartmentForm.fxml", parentStage);
 	}
-	
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -70,6 +77,24 @@ public class DepartmentListController implements Initializable{
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewDepartment.prefHeightProperty().bind(stage.heightProperty());
 		
+		
+	}
+	
+	private void departmentFormView(String absolutname, Stage parentStage) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutname));
+			Pane pane = loader.load();
+			
+			Stage dialogstage = new Stage();
+			dialogstage.setTitle("New Department Data");
+			dialogstage.setResizable(false);
+			dialogstage.setScene(new Scene (pane));
+			dialogstage.initOwner(parentStage);
+			dialogstage.initModality(Modality.WINDOW_MODAL);
+			dialogstage.showAndWait();
+		}catch(IOException e) {
+			Alerts.showAlerts("IO Exception", "Cannot show new dialog", e.getMessage(), AlertType.ERROR);
+		}
 		
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import entities.Department;
 import gui.util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.entities.Department;
 import model.service.DepartmentService;
 
 public class DepartmentListController implements Initializable{
@@ -49,11 +49,19 @@ public class DepartmentListController implements Initializable{
 		initializableNodes();
 		
 	}
-	
 	public void setDepartmentService(DepartmentService service) {
-		this.service = service;
+		this.service=service;
 	}
-
+	
+	public void UpdateTableView() {
+		if(service==null) {
+			Alerts.showAlerts("Service Null", "There isnt a Service Instance", "Please, instante a service", AlertType.ERROR);
+		}else {
+			List<Department> list = service.findAll();
+			obslist = FXCollections.observableArrayList(list);
+			tableViewDepartment.setItems(obslist);
+		}
+	}
 
 	private void initializableNodes() {
 		tablecolumnId.setCellValueFactory(new PropertyValueFactory<>("Id"));
@@ -63,15 +71,6 @@ public class DepartmentListController implements Initializable{
 		tableViewDepartment.prefHeightProperty().bind(stage.heightProperty());
 		
 		
-	}
-	public void UpdateTableView() {
-		if(service==null) {
-			Alerts.showAlerts("Service Null", "There isnt a Service Instance", "Please, instante a service", AlertType.ERROR);
-		}else {
-			List<Department> list = service.FindAll();
-			obslist = FXCollections.observableArrayList(list);
-			tableViewDepartment.setItems(obslist);
-		}
 	}
 
 }
